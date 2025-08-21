@@ -1,0 +1,69 @@
+from langchain_core.tools import tool
+from langchain_core.messages import HumanMessage, ToolMessage
+
+from langchain_openai import ChatOpenAI
+from langchain_ibm import ChatWatsonx
+llm = ChatOpenAI(
+    model="gpt-4.1-nano",
+    api_key = "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",
+)
+
+
+#use this tool framework to create a custom tool that enables the LLM to perform basic addition.
+#The decorator wraps the add() function in LangChain's predefined tool schema. See more about defining custom LangChain tools here.
+
+@tool
+def add(a: int, b: int) -> int:
+    """
+    Add a and b.
+    
+    Args:
+        a (int): first integer to be added
+        b (int): second integer to be added
+
+    Return:
+        int: sum of a and b
+    """
+    return a + b
+
+
+tools = [add]
+
+llm_with_tools = llm.bind_tools(tools)
+
+#create some more basic arithmetic tools.
+
+@tool
+def subtract(a: int, b:int) -> int:
+    """Subtract b from a."""
+    return a - b
+
+@tool
+def multiply(a: int, b:int) -> int:
+    """Multiply a and b."""
+    return a * b
+
+tool_map = {
+    "add": add, 
+    "subtract": subtract,
+    "multiply": multiply
+}
+
+input_ = {
+    "a": 1,
+    "b": 2
+}
+
+tool_map["add"].invoke(input_)
+
+tools = [add, subtract, multiply]
+llm_with_tools = llm.bind_tools(tools)
+
+query = "What is 3 + 2?"
+chat_history = [HumanMessage(content=query)]
+
+response_1 = llm_with_tools.invoke(chat_history)
+chat_history.append(response_1)
+
+print(type(response_1))
+#print(response_1)
