@@ -5,8 +5,7 @@ from langchain_openai import ChatOpenAI
 from langchain_ibm import ChatWatsonx
 llm = ChatOpenAI(
     model="gpt-4.1-nano",
-    api_key = "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",
-)
+    api_key = 
 
 
 #use this tool framework to create a custom tool that enables the LLM to perform basic addition.

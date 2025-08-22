@@ -24,4 +24,4 @@ yt_dpl_logger.setLevel(logging.ERROR)
 from langchain.chat_models import init_chat_model
 
 llm = init_chat_model("gpt-4o-mini", model_provider="openai")
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = 
